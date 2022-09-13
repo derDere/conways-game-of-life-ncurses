@@ -1,5 +1,6 @@
 # Conway's Game of Life 
 A ncursesw version of Conway's Game of Life for your terminal.
+
 ![Conway's Game of Life Screenshot](https://raw.githubusercontent.com/derDere/conways-game-of-life-ncurses/main/screenshot.png)
 
 ## Instalation
