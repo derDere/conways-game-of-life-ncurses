@@ -12,3 +12,7 @@ test: $(APP)
 
 install: $(APP)
 	cp $(APP) /usr/local/bin/$(APP)
+
+uninstall:
+	rm /usr/local/bin/$(APP)
+	@echo Done
