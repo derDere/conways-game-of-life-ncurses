@@ -1,7 +1,8 @@
-# Conways Game of Life 
+# Conway's Game of Life 
 A ncursesw version of Conway's Game of Life for your terminal.
+![Conway's Game of Life Screenshot](lala.png)
 
-# Instalation
+## Instalation
 Enter the folowing command into your terminal:
 ```sh
 git clone https://github.com/derDere/conways-game-of-life-ncurses.git
@@ -11,7 +12,7 @@ cd ..
 rm -rf conways-game-of-life-ncurses
 ```
 
-# Usage
+## Usage
 To start the game simply type the following command:
 ```sh
 cgol
@@ -32,14 +33,14 @@ You can also combine them:
 cgol -a -c
 ```
 
-# Key bindings
+## Key bindings
 While the game is running you can use the following keybindings:
  - p or SPACE to pause or unpause the game.
  - capital C (C+Shift) to clear the screen.
  - q to quit out of the application.
  - Click anyware on the screen using the left Mouse button to create a seed and keep the game alive.
 
-# Uninstall
+## Uninstall
 Run the following command:
 ```sh
 sudo rm /usr/local/bin/cgol
