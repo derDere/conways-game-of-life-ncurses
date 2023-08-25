@@ -29,9 +29,14 @@ If your want to start with a clear screen (no "living" cells) your can use this 
 cgol -c
 ```
 
+There is also a screensaver mode that starts without the instructions screen and exits on every keypress.
+```sh
+cgol -s
+```
+
 You can also combine them:
 ```sh
-cgol -a -c
+cgol -a -c -s
 ```
 
 ## Key bindings
