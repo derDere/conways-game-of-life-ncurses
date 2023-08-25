@@ -23,6 +23,7 @@ void quit();
 int main(int argc, char* argv[]) {
   bool asciiMode = false;
   bool clearStart = false;
+  bool screenSaverMode = false;
 
   for(int i = 0; i < argc; i++) {
     string arg(argv[i]);
@@ -31,6 +32,9 @@ int main(int argc, char* argv[]) {
     }
     else if (arg == "-c") {
       clearStart = true;
+    }
+    else if (arg == "-s") {
+      screenSaverMode = true;
     }
     else if (
       (arg == "-?") ||
@@ -43,6 +47,7 @@ int main(int argc, char* argv[]) {
            << "Startup commands:" << endl
            << "  -c   Clear start" << endl
            << "  -a   Ascii Mode" << endl
+           << "  -s   Screensaver Mode" << endl
            << endl
            << "Key bindings:" << endl
            << "  p          Pause / Unpause" << endl
@@ -67,20 +72,22 @@ int main(int argc, char* argv[]) {
   mousemask(BUTTON1_CLICKED, NULL); //ALL_MOUSE_EVENTS, NULL);
 
   // Draw Start Screen
-  attron(A_BOLD | A_UNDERLINE);
-  mvaddstr( 3, 5, "Conway's Game of Life");
-  attroff(A_UNDERLINE);
-  mvaddstr( 5, 7, "Key bindings:");
-  attroff(A_BOLD);
-  mvaddstr( 6, 9, "p         Pause / Unpause");
-  mvaddstr( 7, 9, "SPACE     Pause / Unpause");
-  mvaddstr( 8, 9, "C         Clear screen");
-  mvaddstr( 9, 9, "q         Quit");
-  mvaddstr(10, 9, "MOUSE_1   Place seed");
-  attron(A_BOLD);
-  mvaddstr(12, 7, "Press any key to start...");
-  attroff(A_BOLD);
-  getch();
+  if (!screenSaverMode) {
+    attron(A_BOLD | A_UNDERLINE);
+    mvaddstr( 3, 5, "Conway's Game of Life");
+    attroff(A_UNDERLINE);
+    mvaddstr( 5, 7, "Key bindings:");
+    attroff(A_BOLD);
+    mvaddstr( 6, 9, "p         Pause / Unpause");
+    mvaddstr( 7, 9, "SPACE     Pause / Unpause");
+    mvaddstr( 8, 9, "C         Clear screen");
+    mvaddstr( 9, 9, "q         Quit");
+    mvaddstr(10, 9, "MOUSE_1   Place seed");
+    attron(A_BOLD);
+    mvaddstr(12, 7, "Press any key to start...");
+    attroff(A_BOLD);
+    getch();
+  }
   nodelay(win, true);
 
   // Creating Grid
@@ -166,19 +173,23 @@ int main(int argc, char* argv[]) {
     // getting user input
     key = getch();
 
+    if (screenSaverMode && key != ERR) {
+    	key = 'q';
+    }
+
     // Check user input
     if (key == KEY_MOUSE) {
       MEVENT event;
       if (getmouse(&event) == OK) {
         if (
-	    (event.bstate & BUTTON1_CLICKED) &&
-	    (event.x >= 0) &&
-	    (event.x < w) &&
-	    (event.y >= 0) &&
-	    (event.y < (h / 2))
-	   ) {
-	  int x = event.x;
-	  int y = event.y;
+	        (event.bstate & BUTTON1_CLICKED) &&
+	        (event.x >= 0) &&
+	        (event.x < w) &&
+	        (event.y >= 0) &&
+	        (event.y < (h / 2))
+	      ) {
+	        int x = event.x;
+	        int y = event.y;
           y *= 2;
           int seed[5][2] = {
             { 1, -1},
@@ -192,7 +203,7 @@ int main(int argc, char* argv[]) {
             int ny = y + seed[n][1];
             m1[nx][ny] = true;
           }
-	}
+	      }
       }
     } else if (key == 'p' || key == ' ') {
       paused = !paused;
